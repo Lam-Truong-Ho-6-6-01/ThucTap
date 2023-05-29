@@ -13,21 +13,22 @@ export default ({
     name: "ForgotPassword",
     data() {
         return {
+            passwordShow: false,
             matKhauHienTai: '',
             matKhauMoi: '',
             xacNhanMatKhauMoi: '',
             password1: [
                 v => !!v || 'Nhập mật khẩu',
-                v => (v.length <= 20 && v.length > 6) || 'Mật khẩu phải từ 6 đến 20 ký tự',
+                v => (v.length <= 20 && v.length > 5) || 'Mật khẩu phải từ 6 đến 20 ký tự',
             ],
             password2: [
                 v => !!v || 'Nhập mật khẩu',
-                v => (v.length <= 20 && v.length > 6) || 'Mật khẩu phải từ 6 đến 20 ký tự',
+                v => (v.length <= 20 && v.length > 5) || 'Mật khẩu phải từ 6 đến 20 ký tự',
                 v => /(?=.*\d)(?=.*[a-z]).{6,}/.test(v) || 'Mật khẩu phải chứa ít nhất một chữ thường, một số !',
             ],
             password3: [
                 v => !!v || 'Nhập mật khẩu',
-                v => (v.length <= 20 && v.length > 6) || 'Mật khẩu phải từ 6 đến 20 ký tự'
+                v => (v.length <= 20 && v.length > 5) || 'Mật khẩu phải từ 6 đến 20 ký tự'
             ]
         };
 
@@ -56,10 +57,9 @@ export default ({
         ResetPassword() {
             this.matKhauHienTai = '',
                 this.matKhauMoi = '',
-                this.xacNhanMatKhauMoi = ''
-            // this.password1 = '',
-            // this.password2 = '',
-            // this.password3 = ''
+                this.xacNhanMatKhauMoi = '',
+                this.$refs.form.reset()
+            // this.$refs.form.resetValidation()
         }
     },
     computed: {
@@ -110,18 +110,24 @@ export default ({
                                                     </v-btn>
                                                 </div>
                                                 <h4 class="text-center mt-4">Ensure your email for registration</h4>
-                                                <v-form>
-                                                    <v-text-field v-model="matKhauHienTai" label="Password" name="password1"
-                                                        prepend-icon="lock" type="password" color="teal accent-3"
-                                                        :rules="password1" />
-                                                    <v-text-field v-model="matKhauMoi" label="New Password" name="password2"
-                                                        prepend-icon="lock" type="password" color="teal accent-3"
-                                                        :rules="password2" />
+                                                <v-form ref="form">
+                                                    <v-text-field :type="passwordShow ? 'text' : 'password'"
+                                                        v-model="matKhauHienTai" label="Password" name="password1"
+                                                        prepend-icon="lock" color="teal accent-3" :rules="password1"
+                                                        :append-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
+                                                        @click:append="passwordShow = !passwordShow" />
+                                                    <v-text-field :type="passwordShow ? 'text' : 'password'"
+                                                        v-model="matKhauMoi" label="New Password" name="password2"
+                                                        prepend-icon="lock" color="teal accent-3" :rules="password2"
+                                                        :append-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
+                                                        @click:append="passwordShow = !passwordShow" />
 
-                                                    <v-text-field v-model="xacNhanMatKhauMoi" id="password"
-                                                        label="Compare Password" name="password3" prepend-icon="lock"
-                                                        type="password" color="teal accent-3"
-                                                        :rules="password3.concat(passwordConfirmationRule)" />
+                                                    <v-text-field :type="passwordShow ? 'text' : 'password'"
+                                                        v-model="xacNhanMatKhauMoi" id="password" label="Compare Password"
+                                                        name="password3" prepend-icon="lock" color="teal accent-3"
+                                                        :rules="password3.concat(passwordConfirmationRule)"
+                                                        :append-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
+                                                        @click:append="passwordShow = !passwordShow" />
                                                 </v-form>
                                             </v-card-text>
                                             <div class="text-center mt-n5">

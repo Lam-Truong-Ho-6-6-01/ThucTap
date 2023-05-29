@@ -29,8 +29,10 @@
                           <v-text-field label="Account" name="Account" prepend-icon="email" type="text"
                             color="teal accent-3" v-model="taiKhoan" />
 
-                          <v-text-field id="password" label="Password" name="password" prepend-icon="lock" type="password"
-                            color="teal accent-3" v-model="matKhau" />
+                          <v-text-field :type="passwordShow ? 'text' : 'password'" id="password" label="Password"
+                            name="password" prepend-icon="lock" color="teal accent-3" v-model="matKhau"
+                            :append-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
+                            @click:append="passwordShow = !passwordShow" />
                         </v-form>
                         <router-link style="text-decoration: none;" to="/fogotpassword">
                           <h3 class="text-center mt-4">Bạn đã quên mật khẩu ?</h3>
@@ -68,6 +70,7 @@ export default {
   data() {
 
     return {
+      passwordShow: false,
       taiKhoan: '',
       matKhau: ''
     }
